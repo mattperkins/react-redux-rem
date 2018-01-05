@@ -1,3 +1,5 @@
 import React from "react";
 
-export default () => "Hello, world 2!!!";
+export default () => {
+  return <p>Hello!</p>;
+};
