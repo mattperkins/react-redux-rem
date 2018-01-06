@@ -1,3 +1,16 @@
 import React from "react";
+import SignupForm from "./SignupForm";
 
-export default () => <h1>Sign up</h1>;
+class SignupPage extends React.Component {
+  render() {
+    return (
+      <div className="row">
+        <div className="col-md-4 col-md-offset-4">
+          <SignupForm />
+        </div>
+      </div>
+    );
+  }
+}
+
+export default SignupPage;
