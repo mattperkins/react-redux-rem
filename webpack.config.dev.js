@@ -22,7 +22,10 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, "client"),
+        include: [
+          path.join(__dirname, "client"),
+          path.join(__dirname, "server/validations")
+        ],
         loaders: ["react-hot-loader/webpack", "babel-loader"],
         exclude: /node_modules/
       }
