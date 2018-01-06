@@ -3,6 +3,7 @@ import timezones from "../data/timezones";
 import map from "lodash/map";
 // import axios from "axios";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class SignupForm extends React.Component {
       email: "",
       password: "",
       passwordConfirmation: "",
-      timezone: ""
+      timezone: "",
+      errors: {},
+      isLoading: false
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -26,11 +29,17 @@ class SignupForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // axios.post("/api/users", { user: this.state });
-    this.props.userSignupRequest(this.state);
+    this.setState({ errors: {}, isLoading: true });
+    this.props
+      .userSignupRequest(this.state)
+      .then(
+        () => {},
+        ({ data }) => this.setState({ errors: data, isLoading: false })
+      );
   }
 
   render() {
+    const { errors } = this.state;
     const options = map(timezones, (val, key) => (
       <option key={val} value={val}>
         {key}
@@ -40,7 +49,9 @@ class SignupForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         <h1>Join us!</h1>
 
-        <div className="form-group">
+        <div
+          className={classnames("form-group", { "has-error": errors.username })}
+        >
           <label className="control-label">Enter a username</label>
           <input
             value={this.state.username}
@@ -49,9 +60,14 @@ class SignupForm extends React.Component {
             name="username"
             className="form-control"
           />
+          {errors.username && (
+            <span className="help-block">{errors.username}</span>
+          )}
         </div>
 
-        <div className="form-group">
+        <div
+          className={classnames("form-group", { "has-error": errors.email })}
+        >
           <label className="control-label">Enter your email</label>
           <input
             value={this.state.email}
@@ -60,9 +76,12 @@ class SignupForm extends React.Component {
             name="email"
             className="form-control"
           />
+          {errors.email && <span className="help-block">{errors.email}</span>}
         </div>
 
-        <div className="form-group">
+        <div
+          className={classnames("form-group", { "has-error": errors.password })}
+        >
           <label className="control-label">Enter a password</label>
           <input
             value={this.state.password}
@@ -71,9 +90,16 @@ class SignupForm extends React.Component {
             name="password"
             className="form-control"
           />
+          {errors.password && (
+            <span className="help-block">{errors.password}</span>
+          )}
         </div>
 
-        <div className="form-group">
+        <div
+          className={classnames("form-group", {
+            "has-error": errors.passwordConfirmation
+          })}
+        >
           <label className="control-label">Confirm password</label>
           <input
             value={this.state.passwordConfirmation}
@@ -82,10 +108,15 @@ class SignupForm extends React.Component {
             name="passwordConfirmation"
             className="form-control"
           />
+          {errors.password && (
+            <span className="help-block">{errors.password}</span>
+          )}
         </div>
 
-        <div className="form-group">
-          <label className="control-label">Confirm password</label>
+        <div
+          className={classnames("form-group", { "has-error": errors.timezone })}
+        >
+          <label className="control-label">Select your Timezone</label>
           <select
             className="form-control"
             name="timezone"
@@ -93,14 +124,22 @@ class SignupForm extends React.Component {
             value={this.state.timezone}
           >
             <option value="" disabled>
-              Choose Your Timezone
+              Choose from dropdown menu
             </option>
             {options}
           </select>
+          {errors.timezone && (
+            <span className="help-block">{errors.timezone}</span>
+          )}
         </div>
 
         <div className="form-group">
-          <button className="btn btn-primary btn-lg">Sign up</button>
+          <button
+            disabled={this.state.isLoading}
+            className="btn btn-primary btn-lg"
+          >
+            Sign up
+          </button>
         </div>
       </form>
     );
