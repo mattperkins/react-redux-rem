@@ -1,8 +1,13 @@
 import React from "react";
+import NavigationBar from "./NavigationBar";
 
 class App extends React.Component {
   render() {
-    return <p>Hello!!!!</p>;
+    return (
+      <div className="container">
+        <NavigationBar />
+      </div>
+    );
   }
 }
 
