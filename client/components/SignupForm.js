@@ -42,12 +42,12 @@ class SignupForm extends React.Component {
 
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props
-        .userSignupRequest(this.state)
-        .then(
-          () => {},
-          ({ data }) => this.setState({ errors: data, isLoading: false })
-        );
+      this.props.userSignupRequest(this.state).then(
+        () => {
+          this.props.history.push("/");
+        },
+        ({ data }) => this.setState({ errors: data, isLoading: false })
+      );
     }
   }
 
