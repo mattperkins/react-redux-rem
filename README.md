@@ -8,7 +8,7 @@
 ### todo
 ### email format validation - '@'
 ### react router redirect form after submit/validation instead of plain history method?
-### close flash messages button not working : error 
+### (rem-V#11) close flash messages button not working : error 
 ```
 this.props.deleteFlashMessage is not a function 
 ```
